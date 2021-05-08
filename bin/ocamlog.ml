@@ -20,6 +20,12 @@ let time =
     tm.Unix.tm_sec
     (int_of_float (1_000. *. us))
 
+let location =
+  let file = __FILE__ in
+  let line = sprintf "%d" __LINE__ in
+  let func = __FUNCTION__ in
+  sprintf "[%s:%s (%s)]" file line func
+
 let print str color =
   let color' = colorToString color in
   let r = colorToString Reset in
@@ -29,12 +35,17 @@ let println str color =
   let str' = str ^ "\n" in
   print str' color
 
-let printtln str color =
-  let str' = sprintf "%s %s" time str
+let printtln strin color =
+  let str' = sprintf "%s %s" time strin
     (* (level_to_string lvl)
     !prefix *)
   in
   println str' color
+
+let printlln str color =
+  let str' = sprintf "%s %s %s" location time str in
+  println str' color
+
 
 let printdtln str color =
   let str' = sprintf "%s %s %s" date time str
@@ -42,6 +53,7 @@ let printdtln str color =
     !prefix *)
   in
   println str' color
+
 
 let printTrace str = printtln ("(Trace) " ^ str) Default
 let printInfo str  = printtln ("(Info) "  ^ str) Green
