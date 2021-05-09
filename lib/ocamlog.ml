@@ -23,7 +23,7 @@ let lastLine  = "└────────────────────
 let decoration = ref false
 
 let makeDecoration str lvl location =
-  sprintf " %s %s\n %s %s Location : %s\n %s %s\n %s %s %s\n %s %s"
+  sprintf " %s %s\n %s %s Location : %s\n %s %s\n %s %s ➤ %s\n %s %s"
     lvl firstLine
     lvl firstChar location
     lvl midLine
