@@ -1,4 +1,5 @@
 open Color
+open Level
 open Printf
 open Unix
 
@@ -50,38 +51,15 @@ let printFtLocation str color location =
   print location Grey;
   println str' color
 
-let printTrace str =
+let print lvl str =
   let file, line =
     Printexc.get_callstack 2
     |> Printexc.raw_backtrace_to_string
     |> fileCaller in
   let f = sprintf "[%s:%s]" file line in
-  let str' = sprintf "(Trace) %s" str in
-  printFtLocation str' Default f
 
-let printInfo str  =
-  let file, line =
-    Printexc.get_callstack 2
-    |> Printexc.raw_backtrace_to_string
-    |> fileCaller in
-  let f = sprintf "[%s:%s]" file line in
-  let str' = sprintf "(Info) %s" str in
-  printFtLocation str' Green f
+  let colStr = levelToString lvl in
+  let col = levelToColor lvl in
 
-let printWarn str =
-  let file, line =
-    Printexc.get_callstack 2
-    |> Printexc.raw_backtrace_to_string
-    |> fileCaller in
-  let f = sprintf "[%s:%s]" file line in
-  let str' = sprintf "(Warn) %s" str in
-  printFtLocation str' Yellow f
-
-let printError str =
-  let file, line =
-    Printexc.get_callstack 2
-    |> Printexc.raw_backtrace_to_string
-    |> fileCaller in
-  let f = sprintf "[%s:%s]" file line in
-  let str' = sprintf "(Red) %s" str in
-  printFtLocation str' Red f
+  let str' = sprintf "(%s) %s" colStr str in
+  printFtLocation str' col f

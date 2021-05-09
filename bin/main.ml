@@ -1,12 +1,10 @@
 open Lib
-open Printexc
-open Printf
 
-let () = Ocamlog.printTrace "Error"
+let () = Ocamlog.print Trace "Message 1"
 
-let func () = Ocamlog.printInfo "Error"
+let () = Ocamlog.print Info "Message 2"
 
-let () = func ()
+let () = Ocamlog.print Warning "Message 3"
 
-let () = Ocamlog.printWarn "Error"
-let () = Ocamlog.printError "Error"
+let () = Ocamlog.print Error "Message 4"
+

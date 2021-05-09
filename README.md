@@ -1,14 +1,27 @@
 # OcamLog
 
-Simple logger pour Ocaml
-
+Logger pour Ocaml.
 
 # Usage
 
-Todo
+Fichier exemple `bin/main.ml`:
 
-# To Do
+```ocaml=
+open Lib
 
-- item1
-- item2
-- item3
+let () = Ocamlog.print Trace "Error"
+
+let () = Ocamlog.print Info "Error"
+
+let () = Ocamlog.print Warning "Error"
+
+let () = Ocamlog.print Error "Error"
+```
+
+![Preview image](preview/screen.png)
+
+# Inspiration
+
+Merci grand maître Émilien pour cette super idée :
+[https://github.com/emilienlemaire/CppLogger2](CppLogger2).
+
