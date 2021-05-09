@@ -1,2 +1,4 @@
 (library
+  (flags (:standard -w -32))
+  (libraries unix)
   (name lib))
