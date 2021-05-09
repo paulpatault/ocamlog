@@ -13,6 +13,13 @@ let levelToString l =
   | Warning -> "Warn"
   | Error   -> "Error"
 
+let levelToUpperString l =
+  match l with
+  | Trace   -> "TRACE"
+  | Info    -> "INFO"
+  | Warning -> "WARN"
+  | Error   -> "ERROR"
+
 let levelToColor l =
   match l with
   | Trace   -> Default

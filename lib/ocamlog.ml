@@ -1,15 +1,34 @@
+(**************************************************************************************************
+*********************[ INCLUDES ]******************************************************************
+**************************************************************************************************)
+
 open Color
 open Level
 open Printf
 open Unix
 
-let get_date =
-  let ts = gettimeofday() in
-  let tm = localtime ts in
-  sprintf "%04d-%02d-%02d"
-    (1900 + tm.Unix.tm_year)
-    (1    + tm.Unix.tm_mon)
-    tm.Unix.tm_mday
+(**************************************************************************************************
+*********************[ CONSTANTS ]*****************************************************************
+**************************************************************************************************)
+
+let firstLine = "┌───────────────────────────────────────────────────────────────────────"
+let firstChar = "│"
+let midLine   = "├┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄"
+let lastLine  = "└───────────────────────────────────────────────────────────────────────"
+
+(**************************************************************************************************
+*********************[ UTILS ]*********************************************************************
+**************************************************************************************************)
+
+let decoration = ref false
+
+let makeDecoration str lvl location =
+  sprintf " %s %s\n %s %s Location : %s\n %s %s\n %s %s %s\n %s %s"
+    lvl firstLine
+    lvl firstChar location
+    lvl midLine
+    lvl firstChar str
+    lvl lastLine
 
 let get_time =
   let ts = gettimeofday() in
@@ -33,6 +52,10 @@ let fileCaller (str : string) =
   let line = List.nth split3 2 in
   file, line
 
+(**************************************************************************************************
+*********************[ PRINT ]*********************************************************************
+**************************************************************************************************)
+
 let print str color =
   let color' = colorToString color in
   let r = colorToString Reset in
@@ -46,20 +69,35 @@ let printFtTime str color =
   let str' = sprintf "%s %s" get_time str in
   println str' color
 
-let printFtLocation str color location =
-  let str' = sprintf " %s" str in
-  print location Grey;
-  println str' color
+let printFtLocation str lvl location color =
+  if !decoration then
+    let lvlStr = levelToUpperString lvl in
+    let str' = makeDecoration str lvlStr location in
+    println str' color
+  else
+    let lvlStr = levelToString lvl in
+    let str' = sprintf " (%s) %s" lvlStr str in
+    print location Grey;
+    println str' color
+
+(**************************************************************************************************
+*********************[ PUBLIC ]********************************************************************
+**************************************************************************************************)
+
+let setDecoration value   = decoration := value
+let enableDecorations  () = decoration := true
+let disableDecorations () = decoration := false
 
 let print lvl str =
   let file, line =
     Printexc.get_callstack 2
     |> Printexc.raw_backtrace_to_string
     |> fileCaller in
-  let f = sprintf "[%s:%s]" file line in
 
-  let colStr = levelToString lvl in
-  let col = levelToColor lvl in
+  let location = sprintf "[%s:%s]" file line in
+  let color = levelToColor lvl in
+  printFtLocation str lvl location color
 
-  let str' = sprintf "(%s) %s" colStr str in
-  printFtLocation str' col f
+(**************************************************************************************************
+*********************[ EOF ]***********************************************************************
+**************************************************************************************************)

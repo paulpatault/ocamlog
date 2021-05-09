@@ -7,4 +7,5 @@ type level =
   | Error
 
 val levelToString : level -> string
+val levelToUpperString : level -> string
 val levelToColor : level -> color
