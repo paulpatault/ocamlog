@@ -1,3 +1,6 @@
 (executable
   (name main)
+  (flags
+    (:standard -w -32)
+    (:standard -w -33))
   (libraries lib))

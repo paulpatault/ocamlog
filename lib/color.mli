@@ -7,6 +7,7 @@ type color =
   | Magenta
   | Cyan
   | White
+  | Grey
   | Default
   | Reset
 

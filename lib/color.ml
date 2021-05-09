@@ -7,6 +7,7 @@ type color =
   | Magenta
   | Cyan
   | White
+  | Grey
   | Default
   | Reset
 
@@ -20,5 +21,6 @@ let colorToString color =
   | Magenta -> "\027[35m"
   | Cyan    -> "\027[36m"
   | White   -> "\027[37m"
+  | Grey    -> "\027[90m"
   | Default -> "\027[39m"
   | Reset   -> "\027[0m"

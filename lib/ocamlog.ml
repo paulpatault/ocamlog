@@ -2,7 +2,7 @@ open Color
 open Printf
 open Unix
 
-let date =
+let get_date =
   let ts = gettimeofday() in
   let tm = localtime ts in
   sprintf "%04d-%02d-%02d"
@@ -10,7 +10,7 @@ let date =
     (1    + tm.Unix.tm_mon)
     tm.Unix.tm_mday
 
-let time =
+let get_time =
   let ts = gettimeofday() in
   let tm = localtime ts in
   let us, _s = modf ts in
@@ -20,11 +20,17 @@ let time =
     tm.Unix.tm_sec
     (int_of_float (1_000. *. us))
 
-let location =
-  let file = __FILE__ in
-  let line = sprintf "%d" __LINE__ in
-  let func = __FUNCTION__ in
-  sprintf "[%s:%s (%s)]" file line func
+let fileCaller (str : string) =
+  let split1 =
+    String.split_on_char '"' str
+    |> List.rev in
+  let file = List.nth split1 1 in
+  let line_char = List.hd split1 in
+  let split3 =
+    List.nth (String.split_on_char ',' line_char) 1
+    |> String.split_on_char ' ' in
+  let line = List.nth split3 2 in
+  file, line
 
 let print str color =
   let color' = colorToString color in
@@ -35,27 +41,47 @@ let println str color =
   let str' = str ^ "\n" in
   print str' color
 
-let printtln strin color =
-  let str' = sprintf "%s %s" time strin
-    (* (level_to_string lvl)
-    !prefix *)
-  in
+let printFtTime str color =
+  let str' = sprintf "%s %s" get_time str in
   println str' color
 
-let printlln str color =
-  let str' = sprintf "%s %s %s" location time str in
+let printFtLocation str color location =
+  let str' = sprintf " %s" str in
+  print location Grey;
   println str' color
 
+let printTrace str =
+  let file, line =
+    Printexc.get_callstack 2
+    |> Printexc.raw_backtrace_to_string
+    |> fileCaller in
+  let f = sprintf "[%s:%s]" file line in
+  let str' = sprintf "(Trace) %s" str in
+  printFtLocation str' Default f
 
-let printdtln str color =
-  let str' = sprintf "%s %s %s" date time str
-    (* (level_to_string lvl)
-    !prefix *)
-  in
-  println str' color
+let printInfo str  =
+  let file, line =
+    Printexc.get_callstack 2
+    |> Printexc.raw_backtrace_to_string
+    |> fileCaller in
+  let f = sprintf "[%s:%s]" file line in
+  let str' = sprintf "(Info) %s" str in
+  printFtLocation str' Green f
 
+let printWarn str =
+  let file, line =
+    Printexc.get_callstack 2
+    |> Printexc.raw_backtrace_to_string
+    |> fileCaller in
+  let f = sprintf "[%s:%s]" file line in
+  let str' = sprintf "(Warn) %s" str in
+  printFtLocation str' Yellow f
 
-let printTrace str = printtln ("(Trace) " ^ str) Default
-let printInfo str  = printtln ("(Info) "  ^ str) Green
-let printWarn str  = printtln ("(Warn) "  ^ str) Yellow
-let printError str = printtln ("(Error) " ^ str) Red
+let printError str =
+  let file, line =
+    Printexc.get_callstack 2
+    |> Printexc.raw_backtrace_to_string
+    |> fileCaller in
+  let f = sprintf "[%s:%s]" file line in
+  let str' = sprintf "(Red) %s" str in
+  printFtLocation str' Red f
