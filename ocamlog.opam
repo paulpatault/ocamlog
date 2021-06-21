@@ -1,0 +1,10 @@
+opam-version: "2.1.1"
+name: "OcamLog"
+version: "~dev"
+synopsis: "Simple Logger for OCaml"
+description: "Able to print with different colors, levels, trace out caller, ..."
+maintainer: "paulpatault <p.patault@gmail.com>"
+authors: "paulpatault <p.patault@gmail.com>"
+depends: ["ocaml"]
+build: ["dune" "build"]
+dev-repo: "git://github.com/paulpatault/OcamLog"
