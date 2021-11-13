@@ -1,6 +1,7 @@
 (library
+  (public_name ocamlog)
+  (name ocamlog)
   (flags
     (:standard -w -32)
   )
-  (libraries unix)
-  (name lib))
+  (libraries unix))
