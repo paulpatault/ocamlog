@@ -11,7 +11,7 @@ type color =
   | Default
   | Reset
 
-let colorToString color =
+let color_to_string color =
   match color with
   | Black   -> "\027[30m"
   | Red     -> "\027[31m"

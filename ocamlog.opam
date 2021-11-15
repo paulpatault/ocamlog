@@ -1,4 +1,4 @@
-version: "0.0.1"
+version: "0.1"
 opam-version: "2.0"
 name: "OcamLog"
 synopsis: "Simple Logger for OCaml"
@@ -6,7 +6,7 @@ description: "Able to print with different colors, levels, trace out caller, etc
 maintainer: "paulpatault <p.patault@gmail.com>"
 authors: "paulpatault <p.patault@gmail.com>"
 depends: [
-  "ocaml"
+  "ocaml" {>= "4.04"}
   "dune" {>= "2.8"}
 ]
 build: ["dune" "build" "-p" name "-j" jobs]
