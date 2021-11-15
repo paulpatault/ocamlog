@@ -25,7 +25,7 @@ let lastLine  = "└────────────────────
 
 let decoration = ref false
 
-let makeDecoration str lvl location =
+let make_decoration str lvl location =
   sprintf " %s %s\n %s %s Location : %s\n %s %s\n %s %s ➤ %s\n %s %s"
     lvl firstLine
     lvl firstChar location
@@ -43,7 +43,7 @@ let get_time =
     tm.Unix.tm_sec
     (int_of_float (1_000. *. us))
 
-let fileCaller (str : string) =
+let file_caller (str : string) =
   let split1 =
     String.split_on_char '"' str
     |> List.rev in
@@ -60,25 +60,25 @@ let fileCaller (str : string) =
 **************************************************************************************************)
 
 let print str color =
-  let color' = colorToString color in
-  let r = colorToString Reset in
+  let color' = color_to_string color in
+  let r = color_to_string Reset in
   printf "%s%s%s" color' str r
 
 let println str color =
   let str' = str ^ "\n" in
   print str' color
 
-let printFtTime str color =
+let print_time str color =
   let str' = sprintf "%s %s" get_time str in
   println str' color
 
-let printFtLocation str lvl location color =
+let print_location str lvl location color =
   if !decoration then
-    let lvlStr = levelToUpperString lvl in
-    let str' = makeDecoration str lvlStr location in
+    let lvlStr = level_to_upper_string lvl in
+    let str' = make_decoration str lvlStr location in
     println str' color
   else
-    let lvlStr = levelToString lvl in
+    let lvlStr = level_to_string lvl in
     let str' = sprintf " (%s) %s" lvlStr str in
     print location Grey;
     println str' color
@@ -87,19 +87,19 @@ let printFtLocation str lvl location color =
 *********************[ PUBLIC ]********************************************************************
 **************************************************************************************************)
 
-let setDecoration value   = decoration := value
-let enableDecorations  () = decoration := true
-let disableDecorations () = decoration := false
+let set_decoration value   = decoration := value
+let enable_decorations  () = decoration := true
+let disable_decorations () = decoration := false
 
 let print lvl str =
   let file, line =
     Printexc.get_callstack 2
     |> Printexc.raw_backtrace_to_string
-    |> fileCaller in
+    |> file_caller in
 
   let location = sprintf "[%s:%s]" file line in
-  let color = levelToColor lvl in
-  printFtLocation str lvl location color
+  let color = level_to_color lvl in
+  print_location str lvl location color
 
 (**************************************************************************************************
 *********************[ EOF ]***********************************************************************

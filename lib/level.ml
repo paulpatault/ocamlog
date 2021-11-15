@@ -6,21 +6,21 @@ type level =
   | Warning
   | Error
 
-let levelToString l =
+let level_to_string l =
   match l with
   | Trace   -> "Trace"
   | Info    -> "Info"
   | Warning -> "Warn"
   | Error   -> "Error"
 
-let levelToUpperString l =
+let level_to_upper_string l =
   match l with
   | Trace   -> "TRACE"
   | Info    -> "INFO"
   | Warning -> "WARN"
   | Error   -> "ERROR"
 
-let levelToColor l =
+let level_to_color l =
   match l with
   | Trace   -> Default
   | Info    -> Green

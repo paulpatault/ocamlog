@@ -11,4 +11,4 @@ type color =
   | Default
   | Reset
 
-val colorToString : color -> string
+val color_to_string : color -> string

@@ -6,6 +6,6 @@ type level =
   | Warning
   | Error
 
-val levelToString : level -> string
-val levelToUpperString : level -> string
-val levelToColor : level -> color
+val level_to_string : level -> string
+val level_to_upper_string : level -> string
+val level_to_color : level -> color
