@@ -1,3 +1,11 @@
+## v0.2 - 26/11/2021
+### Update TagName
+- ø
+
+## v0.11 - 16/11/2021
+### Modifications
+- Bugfix: aux lib access
+
 ## v0.1 - 15/11/2021
 ### Modifications
 - Corrections for opam

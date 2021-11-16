@@ -91,13 +91,18 @@ let set_decoration value   = decoration := value
 let enable_decorations  () = decoration := true
 let disable_decorations () = decoration := false
 
-let print lvl str =
+let print ?loc lvl str =
   let file, line =
     Printexc.get_callstack 2
     |> Printexc.raw_backtrace_to_string
     |> file_caller in
 
-  let location = sprintf "[%s:%s]" file line in
+  let location =
+    match loc with
+    | Some(s1, s2) -> sprintf "[%s:%s]" s1 s2
+    | None -> sprintf "[%s:%s]" file line
+  in
+
   let color = level_to_color lvl in
   print_location str lvl location color
 
