@@ -1,6 +1,6 @@
 (lang dune 2.8)
 (name ocamlog)
-(version v0.1)
+(version v0.11)
 
 
 (source (github paulpatault/ocamlog))
